@@ -3,20 +3,34 @@ import '../widgets/product_grid.dart';
 
 enum Options { favorites, all }
 
-class ProductOverviewScreen extends StatelessWidget {
+class ProductOverviewScreen extends StatefulWidget {
   const ProductOverviewScreen({super.key});
 
   @override
+  State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
+}
+
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+  bool _showFavoritesOnly = false;
+
+  @override
   Widget build(BuildContext context) {
+    //final Products product = Provider.of(context, listen: false).items;
+    // final favoritesProducts = ;
     return Scaffold(
       appBar: AppBar(
         title: Text('Loja de Roupas'),
-        actions: [
+        actions: <Widget>[
           IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
           PopupMenuButton(
             onSelected: (Options value) {
-              if (value == Options.all) {
-              } else {}
+              setState(() {
+                if (value == Options.favorites) {
+                  _showFavoritesOnly = true;
+                } else {
+                  _showFavoritesOnly = false;
+                }
+              });
             },
             itemBuilder: (context) => [
               PopupMenuItem(
@@ -28,7 +42,7 @@ class ProductOverviewScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ProductGrid(),
+      body: ProductGrid(_showFavoritesOnly),
     );
   }
 }

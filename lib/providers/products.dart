@@ -10,6 +10,12 @@ class Products with ChangeNotifier {
     return [..._items];
   }
 
+  List<Product> get favoritesOnly {
+    return _items.where((favorites) {
+      return favorites.isFarorite!;
+    }).toList();
+  }
+
   void addProduct(Product product) {
     _items.add(product);
     notifyListeners();
